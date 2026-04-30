@@ -26,18 +26,24 @@ Same notebook, same UI, same generation. Cell 2 detects which environment it's i
 ### What happens
 
 - **Cell 1** (markdown): the same instructions you're reading.
-- **Cell 2** (setup): GPU check → clone ComfyUI → download the FLUX.1-schnell-fp8 checkpoint (17 GB, single bundled file) with a `tqdm` progress bar → start ComfyUI on `127.0.0.1:8188` → wait until ready. ~6 min on first run, ~30 s on re-runs (the checkpoint is cached on the session disk).
+- **Cell 2** (setup): GPU check → clone ComfyUI → download FLUX.1-dev-fp8 (17 GB) + the Aquarell watercolor LoRA (171 MB) with `tqdm` progress bars → start ComfyUI on `127.0.0.1:8188` → wait until ready. ~7 min on first run, ~30 s on re-runs (files cached on the session disk).
 - **Cell 3** (UI): `ipywidgets`-driven controls.
   - Pick **URL** or **Upload** for the input image.
   - Pick a **Style** (Soft Watercolor, Ink + Watercolor, Children's Book, Product Watercolor) and a **Strength** (Light / Medium / Strong — controls how loosely the model reinterprets the source).
   - Optionally set a **Seed** (0 = random).
   - Click **🎨 Generate watercolor** — the progress bar fills, the result renders inline, and a **📥 Download PNG** button appears.
 
-Generations run ~6 s each on warm P100, ~10 s on T4 (4-step distilled schnell). The output overwrites `/kaggle/working/aquarender_output.png` on each click; the download button hands you a versioned filename `aquarender_seed<N>.png`.
+Generations run ~30 s each on warm P100, ~50 s on T4. The output overwrites `/kaggle/working/aquarender_output.png` on each click; the download button hands you a versioned filename `aquarender_seed<N>.png`.
 
-### Why FLUX
+### Model lineage (why these defaults)
 
-We started with SDXL + a watercolor LoRA + a lineart ControlNet — the SDXL stack was producing photo-faithful traced output (skin pores stippled into the result), not loose painterly watercolor. FLUX.1-schnell handles painterly aesthetics in its base model with no LoRA assistance, so the workflow simplifies to a single img2img pass and the output is dramatically more painterly. We pay for it with a 17 GB download (vs 13 GB) and ~12 GB VRAM during sampling.
+We iterated through three stacks. Saved here for honesty about what works:
+
+1. **SDXL + watercolor LoRA + lineart ControlNet.** Photo-faithful but produced traced "stippled" output — every skin pore the lineart preprocessor caught became a dot. ([commit history](https://github.com/8lianno/aquarender/commits/main/notebooks/aquarender_kaggle.ipynb))
+2. **FLUX.1-schnell, no LoRA, no ControlNet.** Cleaner output, dramatically simpler workflow — but schnell at 4 distilled steps produces "smooth digital illustration", not loose painterly watercolor.
+3. **FLUX.1-dev + Aquarell V2 LoRA. ← current.** dev's full 20-step sampling + the LoRA's `AQUACOLTOK` style finally gives the loose watercolor washes, soft pastel hues, paper texture, and color bleeds we want.
+
+Trade-off: dev's license is non-commercial. Outputs are yours for personal use. For commercial, swap cell 2 back to `Comfy-Org/flux1-schnell` (Apache 2.0) and drop steps to 4.
 
 ---
 

@@ -1,6 +1,8 @@
 # AquaRender
 
-Drop a photo into a free Kaggle notebook, click Generate, get a watercolor painting back. Powered by **FLUX.1-schnell** (Apache 2.0). **No paid API. No content filter. No GPU on your laptop. No install.**
+Drop a photo into a free Kaggle notebook, click Generate, get a watercolor painting back. Powered by **FLUX.1-dev** + the SebastianBodza Aquarell watercolor LoRA. **No paid API. No content filter. No GPU on your laptop. No install.**
+
+> **License note:** FLUX.1-dev is non-commercial only. Outputs are yours for personal use; selling them needs a [BFL commercial license](https://blackforestlabs.ai/contact/). Want commercial-safe? Swap cell 2's checkpoint URL back to `Comfy-Org/flux1-schnell` (Apache 2.0) and drop steps to 4 in `_build_workflow` — schnell produces cleaner digital illustration but less painterly texture.
 
 ---
 
@@ -28,7 +30,7 @@ Same 3-cell notebook works on both. Auto-detects which environment you're in.
 
 ### Then on either platform
 
-4. First run downloads the FLUX.1-schnell checkpoint (~17 GB, ~6 min). Re-runs in the same session take ~30 s.
+4. First run downloads FLUX.1-dev (~17 GB) + the Aquarell watercolor LoRA (~171 MB), ~7 min total. Re-runs in the same session take ~30 s.
 5. Scroll to the last cell. Pick **URL** or **Upload** → pick a **Style** → click **🎨 Generate watercolor**. Result renders inline with a **📥 Download PNG** button.
 
 Three cells total. Nothing on your laptop, no `pipx`, no terminal — just a browser.
@@ -36,7 +38,7 @@ Three cells total. Nothing on your laptop, no `pipx`, no terminal — just a bro
 ```mermaid
 flowchart LR
     User([You]) -- "URL or upload" --> NB["Kaggle notebook<br/>(free P100/T4 GPU)"]
-    NB --> Comfy["ComfyUI<br/>+ FLUX.1-schnell (fp8)<br/>img2img"]
+    NB --> Comfy["ComfyUI<br/>+ FLUX.1-dev (fp8)<br/>+ Aquarell watercolor LoRA<br/>img2img"]
     Comfy --> NB
     NB -- "inline preview<br/>+ Download PNG" --> User
 ```
