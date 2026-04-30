@@ -26,20 +26,18 @@ Same notebook, same UI, same generation. Cell 2 detects which environment it's i
 ### What happens
 
 - **Cell 1** (markdown): the same instructions you're reading.
-- **Cell 2** (setup): GPU check → clone ComfyUI → download ~13 GB of models with `tqdm` progress bars → start ComfyUI on `127.0.0.1:8188` → wait until ready. ~5 min on first run, ~30 s on re-runs (model files are cached on the Kaggle session disk).
+- **Cell 2** (setup): GPU check → clone ComfyUI → download the FLUX.1-schnell-fp8 checkpoint (17 GB, single bundled file) with a `tqdm` progress bar → start ComfyUI on `127.0.0.1:8188` → wait until ready. ~6 min on first run, ~30 s on re-runs (the checkpoint is cached on the session disk).
 - **Cell 3** (UI): `ipywidgets`-driven controls.
   - Pick **URL** or **Upload** for the input image.
-  - Pick a **Style** (Soft Watercolor, Ink + Watercolor, Children's Book, Product Watercolor) and a **Strength** (Light / Medium / Strong).
+  - Pick a **Style** (Soft Watercolor, Ink + Watercolor, Children's Book, Product Watercolor) and a **Strength** (Light / Medium / Strong — controls how loosely the model reinterprets the source).
   - Optionally set a **Seed** (0 = random).
   - Click **🎨 Generate watercolor** — the progress bar fills, the result renders inline, and a **📥 Download PNG** button appears.
 
-Generations run ~25 s each on warm P100. The output overwrites `/kaggle/working/aquarender_output.png` on each click; the download button hands you a versioned filename `aquarender_seed<N>.png`.
+Generations run ~6 s each on warm P100, ~10 s on T4 (4-step distilled schnell). The output overwrites `/kaggle/working/aquarender_output.png` on each click; the download button hands you a versioned filename `aquarender_seed<N>.png`.
 
-### Custom LoRAs
+### Why FLUX
 
-Attach a Kaggle Dataset that contains your `.safetensors` (right pane → **+ Add Data**). Cell 2 symlinks any `*.safetensors` it finds under `/kaggle/input/` into ComfyUI's `loras/` folder. Re-run cell 2 to pick up new datasets without restarting.
-
-(Built-in custom-LoRA selection in the UI is a small follow-up — for now, edit the `LoraLoader.lora_name` line in the `_build_workflow` function in cell 3.)
+We started with SDXL + a watercolor LoRA + a lineart ControlNet — the SDXL stack was producing photo-faithful traced output (skin pores stippled into the result), not loose painterly watercolor. FLUX.1-schnell handles painterly aesthetics in its base model with no LoRA assistance, so the workflow simplifies to a single img2img pass and the output is dramatically more painterly. We pay for it with a 17 GB download (vs 13 GB) and ~12 GB VRAM during sampling.
 
 ---
 

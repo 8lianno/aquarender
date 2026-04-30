@@ -1,6 +1,6 @@
 # AquaRender
 
-Drop a photo into a free Kaggle notebook, click Generate, get a watercolor painting back. **No paid API. No content filter. No GPU on your laptop. No install.**
+Drop a photo into a free Kaggle notebook, click Generate, get a watercolor painting back. Powered by **FLUX.1-schnell** (Apache 2.0). **No paid API. No content filter. No GPU on your laptop. No install.**
 
 ---
 
@@ -28,7 +28,7 @@ Same 3-cell notebook works on both. Auto-detects which environment you're in.
 
 ### Then on either platform
 
-4. First run downloads ~13 GB of models (~5 min). Re-runs in the same session take ~30 s.
+4. First run downloads the FLUX.1-schnell checkpoint (~17 GB, ~6 min). Re-runs in the same session take ~30 s.
 5. Scroll to the last cell. Pick **URL** or **Upload** → pick a **Style** → click **🎨 Generate watercolor**. Result renders inline with a **📥 Download PNG** button.
 
 Three cells total. Nothing on your laptop, no `pipx`, no terminal — just a browser.
@@ -36,7 +36,7 @@ Three cells total. Nothing on your laptop, no `pipx`, no terminal — just a bro
 ```mermaid
 flowchart LR
     User([You]) -- "URL or upload" --> NB["Kaggle notebook<br/>(free P100/T4 GPU)"]
-    NB --> Comfy["ComfyUI<br/>+ SDXL + watercolor LoRA<br/>+ Lineart ControlNet"]
+    NB --> Comfy["ComfyUI<br/>+ FLUX.1-schnell (fp8)<br/>img2img"]
     Comfy --> NB
     NB -- "inline preview<br/>+ Download PNG" --> User
 ```
