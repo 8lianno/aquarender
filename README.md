@@ -78,9 +78,9 @@ You should see Python version, DB writable, outputs dir, and "Wiring: ok". If `A
 
 The engine is a Kaggle notebook that boots ComfyUI and exposes it through Cloudflare Tunnel. The notebook lives at [`notebooks/aquarender_kaggle.ipynb`](./notebooks/aquarender_kaggle.ipynb).
 
-> **Private repo:** download the `.ipynb` from GitHub first (the file's **Download raw file** button, or `gh api /repos/8lianno/aquarender/contents/notebooks/aquarender_kaggle.ipynb -H 'Accept: application/vnd.github.raw' > aquarender_kaggle.ipynb`), then upload it to Kaggle. Kaggle's "Import from URL" can't reach a private repo.
-
-1. On Kaggle: **New Notebook → File → Import Notebook → Upload file**, drop `aquarender_kaggle.ipynb`.
+1. On [kaggle.com](https://www.kaggle.com): **New Notebook → File → Import Notebook**, then either:
+   - paste the URL `https://github.com/8lianno/aquarender/blob/main/notebooks/aquarender_kaggle.ipynb`, or
+   - download the `.ipynb` first ([raw link](https://raw.githubusercontent.com/8lianno/aquarender/main/notebooks/aquarender_kaggle.ipynb)) and **Upload file**.
 2. Right pane → **Settings**:
    - **Accelerator: GPU P100** (or T4 if P100 isn't available)
    - **Internet: On** (required to download SDXL + LoRA from HuggingFace)
@@ -92,7 +92,7 @@ The engine is a Kaggle notebook that boots ComfyUI and exposes it through Cloudf
    ```
 5. **Copy that URL.** It changes every time the notebook restarts.
 
-> **Just want to see one image generated, end-to-end on Kaggle, without the local UI?** Upload [`notebooks/aquarender_oneshot.ipynb`](./notebooks/aquarender_oneshot.ipynb) instead, edit `PROMPT` + `INPUT_IMAGE_URL`, **Run All**. The last cell shows the watercolor inline. Same engine setup, but it skips the tunnel and runs one-shot via `scripts/oneshot.sh` (curl + jq, no Python deps).
+> **Just want to see one image generated, end-to-end on Kaggle, without the local UI?** Import [`notebooks/aquarender_oneshot.ipynb`](./notebooks/aquarender_oneshot.ipynb) the same way, edit `PROMPT` + `INPUT_IMAGE_URL`, **Run All**. The last cell shows the watercolor inline. Same engine setup, but it skips the tunnel and runs one-shot via `scripts/oneshot.sh` (curl + jq, no Python deps).
 
 ### 4. Connect and generate
 

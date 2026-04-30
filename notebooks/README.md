@@ -3,21 +3,21 @@
 Kaggle-hosted ComfyUI engines that AquaRender drives over a Cloudflare Tunnel,
 plus a one-shot variant for quick demos.
 
-## Importing into Kaggle (private repo)
+## Importing into Kaggle
 
-The repo at https://github.com/8lianno/aquarender is **private**, so Kaggle's
-"Import from URL" option won't reach it. Use the upload path instead:
+On [kaggle.com](https://www.kaggle.com): **New Notebook → File → Import Notebook**, then either:
 
-1. On GitHub, open the `.ipynb` you want and click **Download raw file** (or
-   `gh api /repos/8lianno/aquarender/contents/notebooks/<file>.ipynb -H 'Accept: application/vnd.github.raw' > <file>.ipynb`
-   from a shell with `gh auth login` already done).
-2. On Kaggle, **New Notebook → File → Import Notebook → Upload file**, drop the
-   downloaded `.ipynb`.
-3. Right pane → **Settings**:
-   - Accelerator: **GPU P100** (T4 also works)
-   - Internet: **On** (needed to fetch SDXL + LoRA + ControlNet from HuggingFace)
+- paste the GitHub URL of the `.ipynb` you want, e.g.
+  `https://github.com/8lianno/aquarender/blob/main/notebooks/aquarender_kaggle.ipynb`, or
+- download the file first ([raw link](https://raw.githubusercontent.com/8lianno/aquarender/main/notebooks/aquarender_kaggle.ipynb))
+  and **Upload file**.
 
-Once the repo is public you can replace step 1 with the raw-URL import flow.
+Then in the right pane → **Settings**:
+
+- Accelerator: **GPU P100** (T4 also works)
+- Internet: **On** (needed to fetch SDXL + LoRA + ControlNet from HuggingFace)
+
+Click **Run All**.
 
 ---
 
