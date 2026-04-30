@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 
@@ -12,7 +12,9 @@ class Settings:
     outputs_dir: Path
     inputs_dir: Path
     engine_url: str | None
-    engine_secret: str | None
+    # repr=False so accidental `print(settings)` or structlog dump doesn't leak
+    # the shared-secret header value into logs or crash reports.
+    engine_secret: str | None = field(repr=False)
 
     @classmethod
     def from_env(cls) -> Settings:
