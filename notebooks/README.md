@@ -1,75 +1,50 @@
 # Notebooks
 
-Kaggle-hosted ComfyUI engines that AquaRender drives over a Cloudflare Tunnel,
-plus a one-shot variant for quick demos.
+## `aquarender_kaggle.ipynb` — the only path you need
 
-## Importing into Kaggle
+Three cells. **Run All** once, then click **Generate** as many times as you like.
 
-On [kaggle.com](https://www.kaggle.com): **New Notebook → File → Import Notebook**, then either:
+### Setup
 
-- paste the GitHub URL of the `.ipynb` you want, e.g.
-  `https://github.com/8lianno/aquarender/blob/main/notebooks/aquarender_kaggle.ipynb`, or
-- download the file first ([raw link](https://raw.githubusercontent.com/8lianno/aquarender/main/notebooks/aquarender_kaggle.ipynb))
-  and **Upload file**.
+1. On [kaggle.com](https://www.kaggle.com): **New Notebook → File → Import Notebook**, paste this URL or upload the `.ipynb`:
+   ```
+   https://github.com/8lianno/aquarender/blob/main/notebooks/aquarender_kaggle.ipynb
+   ```
+2. Right pane → **Settings**:
+   - **Accelerator: GPU P100** (T4 also works)
+   - **Internet: On** (needed to fetch SDXL + LoRA + ControlNet)
+3. Click **Run All**.
 
-Then in the right pane → **Settings**:
+### What happens
 
-- Accelerator: **GPU P100** (T4 also works)
-- Internet: **On** (needed to fetch SDXL + LoRA + ControlNet from HuggingFace)
+- **Cell 1** (markdown): the same instructions you're reading.
+- **Cell 2** (setup): GPU check → clone ComfyUI → download ~13 GB of models with `tqdm` progress bars → start ComfyUI on `127.0.0.1:8188` → wait until ready. ~5 min on first run, ~30 s on re-runs (model files are cached on the Kaggle session disk).
+- **Cell 3** (UI): `ipywidgets`-driven controls.
+  - Pick **URL** or **Upload** for the input image.
+  - Pick a **Style** (Soft Watercolor, Ink + Watercolor, Children's Book, Product Watercolor) and a **Strength** (Light / Medium / Strong).
+  - Optionally set a **Seed** (0 = random).
+  - Click **🎨 Generate watercolor** — the progress bar fills, the result renders inline, and a **📥 Download PNG** button appears.
 
-Click **Run All**.
-
----
-
-## `aquarender_kaggle.ipynb` — full engine
-
-Boots ComfyUI + Cloudflare Tunnel and prints a public URL you paste into the
-local AquaRender Streamlit app's **Connect** tab. This is the path for normal
-single-image and batch use.
-
-1. Run All. First boot takes ~5 min downloading ~13 GB of models.
-2. Watch the last cell — when it prints `✅ AquaRender engine ready` it follows
-   with `https://*.trycloudflare.com`. Copy that.
-3. Switch to AquaRender on your laptop, paste in **Connect**, click **Connect**.
-4. Generate.
+Generations run ~25 s each on warm P100. The output overwrites `/kaggle/working/aquarender_output.png` on each click; the download button hands you a versioned filename `aquarender_seed<N>.png`.
 
 ### Custom LoRAs
 
-Upload your `.safetensors` to a Kaggle Dataset, then attach the dataset to this
-notebook (right pane → Add Data). Cell 6 symlinks any `*.safetensors` it finds
-under `/kaggle/input/` into ComfyUI's LoRA folder. After re-running cell 6 (or
-restarting the notebook) your LoRA shows up in AquaRender's available list and
-in the **Custom LoRA** field on Single / Batch pages.
+Attach a Kaggle Dataset that contains your `.safetensors` (right pane → **+ Add Data**). Cell 2 symlinks any `*.safetensors` it finds under `/kaggle/input/` into ComfyUI's `loras/` folder. Re-run cell 2 to pick up new datasets without restarting.
 
-### Session limits
-
-- 9-hour hard cap per session — long batches must be split.
-- 5-minute idle timeout — AquaRender's `KeepaliveTask` pings every 4 min during
-  batches to defeat this.
-- 30 GPU-hours / week of free quota.
-
-If the tunnel drops mid-batch, AquaRender pauses the batch with a checkpoint.
-Restart the notebook, copy the new URL, paste in **Connect**, click **Resume**
-on the Batch tab — already-completed images aren't regenerated.
+(Built-in custom-LoRA selection in the UI is a small follow-up — for now, edit the `LoraLoader.lora_name` line in the `_build_workflow` function in cell 3.)
 
 ---
 
-## `aquarender_oneshot.ipynb` — one-shot demo
+## Limits
 
-Self-contained: edit `PROMPT` and `INPUT_IMAGE_URL` at the top, **Run All**, and
-the last cell shows the watercolor inline. **No Cloudflare Tunnel, no local app
-required** — generation happens entirely on the Kaggle box.
+- **9-hour hard cap** per Kaggle session.
+- **5-minute idle timeout** if nothing's running. The Generate button itself counts as activity, so casual use is fine.
+- **30 GPU-hours/week** of free quota.
 
-The actual generation cell writes a small `oneshot.sh` to disk and runs it —
-pure `curl` + `jq` against ComfyUI's HTTP API, no Python deps. Same script
-ships at [`scripts/oneshot.sh`](../scripts/oneshot.sh) for reuse outside a
-notebook (e.g. shell loops, smoke tests, CI).
+---
 
-When to use which:
+## `scripts/oneshot.sh`
 
-| You want… | Notebook |
-|-----------|----------|
-| Drop a folder, get a folder back, with a UI | `aquarender_kaggle.ipynb` + local Streamlit app |
-| Generate one image right now, just to see it work | `aquarender_oneshot.ipynb` |
-| Smoke-test a new LoRA without setting up the local app | `aquarender_oneshot.ipynb` |
-| Drive ComfyUI from your own scripts on Kaggle | `scripts/oneshot.sh` after running cells 1–5 of either notebook |
+Standalone bash that drives ComfyUI's HTTP API directly (curl + jq, no Python). Useful for shell automation outside a notebook — e.g. once cell 2 of the Kaggle notebook has booted ComfyUI, you can `bash scripts/oneshot.sh` from a Kaggle terminal cell with `INPUT_IMAGE=… PROMPT=…` env vars.
+
+See the file header for full env-var docs.
