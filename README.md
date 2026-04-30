@@ -78,7 +78,9 @@ You should see Python version, DB writable, outputs dir, and "Wiring: ok". If `A
 
 The engine is a Kaggle notebook that boots ComfyUI and exposes it through Cloudflare Tunnel. The notebook lives at [`notebooks/aquarender_kaggle.ipynb`](./notebooks/aquarender_kaggle.ipynb).
 
-1. Open [kaggle.com](https://www.kaggle.com), click **New Notebook → File → Import Notebook**, upload `aquarender_kaggle.ipynb` (or paste its raw URL).
+> **Private repo:** download the `.ipynb` from GitHub first (the file's **Download raw file** button, or `gh api /repos/8lianno/aquarender/contents/notebooks/aquarender_kaggle.ipynb -H 'Accept: application/vnd.github.raw' > aquarender_kaggle.ipynb`), then upload it to Kaggle. Kaggle's "Import from URL" can't reach a private repo.
+
+1. On Kaggle: **New Notebook → File → Import Notebook → Upload file**, drop `aquarender_kaggle.ipynb`.
 2. Right pane → **Settings**:
    - **Accelerator: GPU P100** (or T4 if P100 isn't available)
    - **Internet: On** (required to download SDXL + LoRA from HuggingFace)
@@ -89,6 +91,8 @@ The engine is a Kaggle notebook that boots ComfyUI and exposes it through Cloudf
    Engine URL:  https://abc-def.trycloudflare.com
    ```
 5. **Copy that URL.** It changes every time the notebook restarts.
+
+> **Just want to see one image generated, end-to-end on Kaggle, without the local UI?** Upload [`notebooks/aquarender_oneshot.ipynb`](./notebooks/aquarender_oneshot.ipynb) instead, edit `PROMPT` + `INPUT_IMAGE_URL`, **Run All**. The last cell shows the watercolor inline. Same engine setup, but it skips the tunnel and runs one-shot via `scripts/oneshot.sh` (curl + jq, no Python deps).
 
 ### 4. Connect and generate
 
