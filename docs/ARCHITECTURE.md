@@ -219,8 +219,8 @@ This is as much a product surface as the Streamlit app. It must:
 2. Install ComfyUI to `/kaggle/working/ComfyUI` (pinned commit).
 3. Download models with `wget` to ComfyUI's expected paths:
    - `models/checkpoints/sd_xl_base_1.0.safetensors`
-   - `models/loras/watercolor_style_lora_sdxl.safetensors`
-   - `models/controlnet/diffusers_xl_lineart_full.safetensors`
+   - `models/loras/watercolor_v1_sdxl.safetensors`
+   - `models/controlnet/mistoLine_rank256.safetensors`
    - `models/controlnet/diffusers_xl_canny_full.safetensors`
 4. Mount any user-provided LoRA datasets from `/kaggle/input/` into ComfyUI's `loras/` folder via symlinks.
 5. Install `cloudflared` binary, launch ComfyUI on `:8188`, launch tunnel.
@@ -330,7 +330,7 @@ Unchanged shape; one column added to `jobs` and `outputs` to record which engine
 │  Status: ✅ Connected                                   │
 │    GPU: NVIDIA Tesla P100-PCIE-16GB                    │
 │    SDXL: sd_xl_base_1.0.safetensors                    │
-│    LoRAs available: watercolor_style_lora_sdxl,        │
+│    LoRAs available: watercolor_v1_sdxl,        │
 │                     my_custom_watercolor                │
 │    ControlNets: lineart, canny                         │
 │                                                         │
@@ -428,7 +428,7 @@ $ aquarender doctor
    GPU: Tesla P100 (16GB)
    ComfyUI: 0.3.10
    SDXL: present
-   LoRAs: watercolor_style_lora_sdxl, my_custom_lora
+   LoRAs: watercolor_v1_sdxl, my_custom_lora
    ControlNets: lineart, canny
    Used GPU minutes this session: 14 / 540
 

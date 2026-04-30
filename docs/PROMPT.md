@@ -45,7 +45,7 @@ Build in order. Each phase ships working software. Don't skip ahead.
 
 **Success criteria:**
 - Run notebook → printed Cloudflare URL → `curl <url>/system_stats` returns ComfyUI JSON
-- LoRA list at `<url>/object_info` includes `watercolor_style_lora_sdxl.safetensors`
+- LoRA list at `<url>/object_info` includes `watercolor_v1_sdxl.safetensors`
 - A test ComfyUI workflow submitted via `<url>/prompt` succeeds
 
 **Why first:** every other phase depends on having a real engine to point at.

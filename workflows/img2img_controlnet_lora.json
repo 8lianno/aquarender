@@ -8,7 +8,7 @@
   "2": {
     "class_type": "LoraLoader",
     "inputs": {
-      "lora_name": "watercolor_style_lora_sdxl.safetensors",
+      "lora_name": "watercolor_v1_sdxl.safetensors",
       "strength_model": 0.8,
       "strength_clip": 0.8,
       "model": ["1", 0],
@@ -45,7 +45,7 @@
   "7": {
     "class_type": "ControlNetLoader",
     "inputs": {
-      "control_net_name": "diffusers_xl_lineart_full.safetensors"
+      "control_net_name": "mistoLine_rank256.safetensors"
     }
   },
   "10": {

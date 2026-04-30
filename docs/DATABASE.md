@@ -261,11 +261,11 @@ Validated by Pydantic on every read.
     "checkpoint": "sd_xl_base_1.0.safetensors"
   },
   "lora": {
-    "name": "watercolor_style_lora_sdxl.safetensors",
+    "name": "watercolor_v1_sdxl.safetensors",
     "weight": 0.85
   },
   "controlnet": {
-    "model": "diffusers_xl_lineart_full.safetensors",
+    "model": "mistoLine_rank256.safetensors",
     "preprocessor": "lineart_realistic",
     "strength": 0.80,
     "start_percent": 0.0,

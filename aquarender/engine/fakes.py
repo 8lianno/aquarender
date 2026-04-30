@@ -30,9 +30,9 @@ class FakeRemoteComfyUIClient:
         self._fixture = fixture_image
         self._gpu = gpu_name
         self._version = comfyui_version
-        self._loras = loras or ["watercolor_style_lora_sdxl.safetensors"]
+        self._loras = loras or ["watercolor_v1_sdxl.safetensors"]
         self._controlnets = controlnets or [
-            "diffusers_xl_lineart_full.safetensors",
+            "mistoLine_rank256.safetensors",
             "diffusers_xl_canny_full.safetensors",
         ]
         self._checkpoints = checkpoints or ["sd_xl_base_1.0.safetensors"]

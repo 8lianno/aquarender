@@ -12,7 +12,7 @@ async def test_health_returns_engine_info() -> None:
     info = await c.health()
     assert info.reachable
     assert info.gpu_name == "Tesla P100-PCIE-16GB"
-    assert "watercolor_style_lora_sdxl.safetensors" in info.available_loras
+    assert "watercolor_v1_sdxl.safetensors" in info.available_loras
 
 
 @pytest.mark.asyncio
