@@ -4,19 +4,32 @@ Drop a photo into a free Kaggle notebook, click Generate, get a watercolor paint
 
 ---
 
-## ⚡ Quick start (Kaggle-only — zero install)
+## ⚡ Quick start (zero install — Kaggle or Colab)
 
-This is the path most people want.
+Same 3-cell notebook works on both. Auto-detects which environment you're in.
 
-1. **[Open the notebook on GitHub →](./notebooks/aquarender_kaggle.ipynb)** and on [kaggle.com](https://www.kaggle.com): **New Notebook → File → Import Notebook**, paste:
+### Kaggle (recommended for sustained use — 30 GPU-hrs/week guaranteed)
+
+1. [kaggle.com](https://www.kaggle.com) → **New Notebook → File → Import Notebook**, paste:
    ```
    https://github.com/8lianno/aquarender/blob/main/notebooks/aquarender_kaggle.ipynb
    ```
-2. Right pane → **Settings**:
-   - **Accelerator: GPU P100** (or T4 if P100 isn't available)
-   - **Internet: On**
-3. **Run All.** The first run takes ~5 min to download ~13 GB of models. After that, re-runs in the same Kaggle session take ~30 s.
-4. Scroll to the last cell. Pick **URL** or **Upload** → pick a **Style** → click **🎨 Generate watercolor**. Result renders inline with a **📥 Download PNG** button.
+2. Right pane → **Settings** → Accelerator: **GPU P100** · Internet: **On**.
+3. **Run All**.
+
+### Google Colab (best-effort T4)
+
+1. Open this URL in your browser:
+   ```
+   https://colab.research.google.com/github/8lianno/aquarender/blob/main/notebooks/aquarender_kaggle.ipynb
+   ```
+2. Top menu → **Runtime → Change runtime type** → Hardware accelerator: **T4 GPU**.
+3. **Runtime → Run all** (or `Ctrl/Cmd + F9`).
+
+### Then on either platform
+
+4. First run downloads ~13 GB of models (~5 min). Re-runs in the same session take ~30 s.
+5. Scroll to the last cell. Pick **URL** or **Upload** → pick a **Style** → click **🎨 Generate watercolor**. Result renders inline with a **📥 Download PNG** button.
 
 Three cells total. Nothing on your laptop, no `pipx`, no terminal — just a browser.
 

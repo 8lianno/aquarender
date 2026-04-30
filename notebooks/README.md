@@ -2,18 +2,26 @@
 
 ## `aquarender_kaggle.ipynb` — the only path you need
 
-Three cells. **Run All** once, then click **Generate** as many times as you like.
+Three cells. **Run All** once, then click **Generate** as many times as you like. Auto-detects Kaggle vs Colab and uses the right paths (`/kaggle/working/` or `/content/`).
 
-### Setup
+### On Kaggle
 
-1. On [kaggle.com](https://www.kaggle.com): **New Notebook → File → Import Notebook**, paste this URL or upload the `.ipynb`:
+1. [kaggle.com](https://www.kaggle.com) → **New Notebook → File → Import Notebook**. Paste:
    ```
    https://github.com/8lianno/aquarender/blob/main/notebooks/aquarender_kaggle.ipynb
    ```
 2. Right pane → **Settings**:
    - **Accelerator: GPU P100** (T4 also works)
    - **Internet: On** (needed to fetch SDXL + LoRA + ControlNet)
-3. Click **Run All**.
+3. **Run All**.
+
+### On Google Colab
+
+1. Open https://colab.research.google.com/github/8lianno/aquarender/blob/main/notebooks/aquarender_kaggle.ipynb in your browser. Colab opens it directly from GitHub.
+2. Top menu → **Runtime → Change runtime type** → Hardware accelerator: **T4 GPU** (or higher if your account has it). Internet is on by default.
+3. **Runtime → Run all** (or `Ctrl/Cmd + F9`).
+
+Same notebook, same UI, same generation. Cell 2 detects which environment it's in and points its scratch paths at the right disk.
 
 ### What happens
 
