@@ -1,32 +1,38 @@
 {
   "id": "soft_watercolor",
   "name": "Soft Watercolor",
-  "description": "Portraits, lifestyle, weddings — gentle wash, high preservation.",
+  "description": "Portraits, lifestyle, weddings \u2014 gentle wash, high preservation.",
   "params": {
     "schema_version": 1,
-    "model": { "checkpoint": "sd_xl_base_1.0.safetensors" },
+    "model": {
+      "checkpoint": "sd_xl_base_1.0.safetensors"
+    },
     "lora": {
       "name": "watercolor_v1_sdxl.safetensors",
-      "weight": 0.8
+      "weight": 0.95
     },
     "controlnet": {
       "model": "mistoLine_rank256.safetensors",
       "preprocessor": "lineart_realistic",
-      "strength": 0.85,
+      "strength": 0.4,
       "start_percent": 0.0,
-      "end_percent": 1.0
+      "end_percent": 0.55
     },
     "sampler": {
       "name": "dpmpp_2m_sde",
       "scheduler": "karras",
       "steps": 28,
       "cfg": 5.5,
-      "denoise": 0.5
+      "denoise": 0.65
     },
     "prompt": {
-      "positive": "watercolor painting, soft brushstrokes, paper texture, gentle color bleed, hand-painted, delicate washes",
-      "negative": "photo, photograph, photorealistic, 3d render, oil painting, harsh edges, oversaturated, low quality, blurry, deformed"
+      "positive": "loose watercolor painting, gestural soft brushstrokes, watercolor wash, white paper texture, minimal detail, painterly, expressive, hand-painted, traditional watercolor on cold-press paper",
+      "negative": "photo, photograph, photorealistic, hyperdetailed, traced edges, lineart, sketch, cross-hatching, stippling, dots, speckled skin, plastic skin, harsh sharp edges, oversaturated, low quality, blurry, deformed"
     },
-    "output": { "width": 1024, "height": 1024, "format": "png" }
+    "output": {
+      "width": 1024,
+      "height": 1024,
+      "format": "png"
+    }
   }
 }

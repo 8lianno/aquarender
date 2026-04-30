@@ -1,32 +1,38 @@
 {
   "id": "childrens_book",
   "name": "Children's Book",
-  "description": "Characters, animals — looser, warmer, illustrative.",
+  "description": "Characters, animals \u2014 looser, warmer, illustrative.",
   "params": {
     "schema_version": 1,
-    "model": { "checkpoint": "sd_xl_base_1.0.safetensors" },
+    "model": {
+      "checkpoint": "sd_xl_base_1.0.safetensors"
+    },
     "lora": {
       "name": "watercolor_v1_sdxl.safetensors",
-      "weight": 0.95
+      "weight": 1.0
     },
     "controlnet": {
       "model": "mistoLine_rank256.safetensors",
       "preprocessor": "lineart_realistic",
-      "strength": 0.65,
+      "strength": 0.3,
       "start_percent": 0.0,
-      "end_percent": 0.9
+      "end_percent": 0.45
     },
     "sampler": {
       "name": "dpmpp_2m_sde",
       "scheduler": "karras",
       "steps": 28,
       "cfg": 5.0,
-      "denoise": 0.6
+      "denoise": 0.72
     },
     "prompt": {
-      "positive": "children's book illustration, watercolor painting, warm whimsical colors, loose brushstrokes, charming, storybook art, hand-painted",
-      "negative": "photo, photograph, photorealistic, 3d render, dark, scary, harsh edges, low quality, blurry, deformed"
+      "positive": "children's book illustration, loose watercolor painting, warm whimsical colors, expressive painterly brushstrokes, charming, storybook art, hand-painted, white paper space showing through",
+      "negative": "photo, photorealistic, dark, scary, traced detail, lineart, hyperdetailed, stippling, plastic, harsh edges, low quality, blurry, deformed"
     },
-    "output": { "width": 1024, "height": 1024, "format": "png" }
+    "output": {
+      "width": 1024,
+      "height": 1024,
+      "format": "png"
+    }
   }
 }

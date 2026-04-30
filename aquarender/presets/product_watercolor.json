@@ -1,32 +1,38 @@
 {
   "id": "product_watercolor",
   "name": "Product Watercolor",
-  "description": "Ecommerce — preserve shape, clean background, gentle color.",
+  "description": "Ecommerce \u2014 preserve shape, clean background, gentle color.",
   "params": {
     "schema_version": 1,
-    "model": { "checkpoint": "sd_xl_base_1.0.safetensors" },
+    "model": {
+      "checkpoint": "sd_xl_base_1.0.safetensors"
+    },
     "lora": {
       "name": "watercolor_v1_sdxl.safetensors",
-      "weight": 0.7
+      "weight": 0.85
     },
     "controlnet": {
       "model": "mistoLine_rank256.safetensors",
       "preprocessor": "lineart_realistic",
-      "strength": 0.9,
+      "strength": 0.55,
       "start_percent": 0.0,
-      "end_percent": 1.0
+      "end_percent": 0.65
     },
     "sampler": {
       "name": "dpmpp_2m_sde",
       "scheduler": "karras",
       "steps": 28,
       "cfg": 5.5,
-      "denoise": 0.42
+      "denoise": 0.55
     },
     "prompt": {
-      "positive": "watercolor product illustration, soft color wash, clean white paper background, hand-painted, gentle shadows, ecommerce-friendly",
-      "negative": "photo, photograph, photorealistic, 3d render, busy background, harsh edges, oversaturated, low quality, blurry"
+      "positive": "loose watercolor product illustration, soft color wash, clean white paper background, hand-painted, gentle painterly brushstrokes, minimal detail, ecommerce-friendly",
+      "negative": "photo, photorealistic, busy background, traced fine detail, lineart, stippling, harsh edges, oversaturated, low quality, blurry"
     },
-    "output": { "width": 1024, "height": 1024, "format": "png" }
+    "output": {
+      "width": 1024,
+      "height": 1024,
+      "format": "png"
+    }
   }
 }
