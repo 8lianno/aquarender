@@ -1,0 +1,32 @@
+{
+  "id": "product_watercolor",
+  "name": "Product Watercolor",
+  "description": "Ecommerce — preserve shape, clean background, gentle color.",
+  "params": {
+    "schema_version": 1,
+    "model": { "checkpoint": "sd_xl_base_1.0.safetensors" },
+    "lora": {
+      "name": "watercolor_style_lora_sdxl.safetensors",
+      "weight": 0.7
+    },
+    "controlnet": {
+      "model": "diffusers_xl_lineart_full.safetensors",
+      "preprocessor": "lineart_realistic",
+      "strength": 0.9,
+      "start_percent": 0.0,
+      "end_percent": 1.0
+    },
+    "sampler": {
+      "name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "steps": 28,
+      "cfg": 5.5,
+      "denoise": 0.42
+    },
+    "prompt": {
+      "positive": "watercolor product illustration, soft color wash, clean white paper background, hand-painted, gentle shadows, ecommerce-friendly",
+      "negative": "photo, photograph, photorealistic, 3d render, busy background, harsh edges, oversaturated, low quality, blurry"
+    },
+    "output": { "width": 1024, "height": 1024, "format": "png" }
+  }
+}

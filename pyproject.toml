@@ -1,0 +1,135 @@
+[project]
+name = "aquarender"
+version = "0.1.0"
+description = "Free-tier-only watercolor batch image transformer driven by remote ComfyUI"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10,<3.13"
+authors = [{ name = "Ali Naserifar" }]
+dependencies = [
+    "streamlit>=1.32",
+    "sqlalchemy>=2.0",
+    "alembic>=1.13",
+    "httpx>=0.27",
+    "pydantic>=2.6",
+    "pillow>=10.2",
+    "click>=8.1",
+    "structlog>=24.1",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "pytest-cov>=4.1",
+    "ruff>=0.4",
+    "mypy>=1.10",
+    "import-linter>=2.0",
+    "respx>=0.21",
+    "types-pillow",
+]
+
+[project.scripts]
+aquarender = "aquarender.cli:cli"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["aquarender"]
+
+[tool.hatch.build]
+include = [
+    "aquarender/**/*.py",
+    "aquarender/presets/*.json",
+    "aquarender/db/migrations/**/*",
+    "workflows/*.json",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["aquarender/db/migrations/versions", "notebooks"]
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "W",       # pycodestyle / pyflakes
+    "I",                 # isort
+    "B",                 # bugbear
+    "UP",                # pyupgrade
+    "SIM",               # simplify
+    "TID",               # tidy imports
+    "RUF",
+]
+ignore = ["E501", "B008", "SIM105"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["B011"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+disallow_untyped_decorators = false
+plugins = []
+exclude = ["aquarender/db/migrations/versions"]
+
+[[tool.mypy.overrides]]
+module = ["streamlit.*", "alembic.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-q --strict-markers"
+markers = [
+    "e2e: requires a real Kaggle/Colab tunnel (set AQUARENDER_E2E_TUNNEL_URL)",
+]
+
+[tool.coverage.run]
+source = ["aquarender"]
+omit = ["aquarender/db/migrations/*", "aquarender/ui/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]
+
+[tool.importlinter]
+root_package = "aquarender"
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "Layering: ui -> core -> (db.repo | engine)"
+type = "layers"
+layers = [
+    "aquarender.ui",
+    "aquarender.core",
+    "aquarender.engine | aquarender.db",
+]
+
+[[tool.importlinter.contracts]]
+name = "core must not import streamlit"
+type = "forbidden"
+source_modules = ["aquarender.core"]
+forbidden_modules = ["streamlit"]
+allow_indirect_imports = true
+
+[[tool.importlinter.contracts]]
+name = "engine must not import core, db, or streamlit"
+type = "forbidden"
+source_modules = ["aquarender.engine"]
+forbidden_modules = ["aquarender.core", "aquarender.db", "streamlit"]
+allow_indirect_imports = true
+
+[[tool.importlinter.contracts]]
+name = "ui must not import engine, db, or httpx directly"
+type = "forbidden"
+source_modules = ["aquarender.ui"]
+forbidden_modules = ["aquarender.engine", "aquarender.db", "httpx"]
+allow_indirect_imports = true

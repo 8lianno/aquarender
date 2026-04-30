@@ -1,0 +1,32 @@
+{
+  "id": "soft_watercolor",
+  "name": "Soft Watercolor",
+  "description": "Portraits, lifestyle, weddings — gentle wash, high preservation.",
+  "params": {
+    "schema_version": 1,
+    "model": { "checkpoint": "sd_xl_base_1.0.safetensors" },
+    "lora": {
+      "name": "watercolor_style_lora_sdxl.safetensors",
+      "weight": 0.8
+    },
+    "controlnet": {
+      "model": "diffusers_xl_lineart_full.safetensors",
+      "preprocessor": "lineart_realistic",
+      "strength": 0.85,
+      "start_percent": 0.0,
+      "end_percent": 1.0
+    },
+    "sampler": {
+      "name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "steps": 28,
+      "cfg": 5.5,
+      "denoise": 0.5
+    },
+    "prompt": {
+      "positive": "watercolor painting, soft brushstrokes, paper texture, gentle color bleed, hand-painted, delicate washes",
+      "negative": "photo, photograph, photorealistic, 3d render, oil painting, harsh edges, oversaturated, low quality, blurry, deformed"
+    },
+    "output": { "width": 1024, "height": 1024, "format": "png" }
+  }
+}
